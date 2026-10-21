@@ -1,43 +1,29 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="it">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Week Project — Settimana III</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
+	<head>
+		<meta charset="UTF-8" />
+		<title>Task Manager</title>
+		<link rel="stylesheet" href="style.css" />
+	</head>
+	<body>
+		<h1 id="titolo">Le mie cose da fare</h1>
 
-  <header>
-    <!-- Titolo dell'app + sottotitolo + button tema chiaro/scuro -->
-  </header>
+<div class="aggiunta">
+  <input id="nuovo-task" placeholder="Cosa devi fare?" />
+  <button id="bottone-aggiungi">Aggiungi</button>
+</div>
 
-  <main>
+<div class="filtri">
+  <button>Tutti</button>
+  <button>Attivi</button>
+  <button>Completati</button>
+</div>
 
-    <section class="form">
-      <!-- Form di inserimento di nuovi elementi -->
-    </section>
+<ul id="lista-task"></ul>
 
-    <section class="controlli">
-      <!-- Ricerca live, filtro (select), ordinamento -->
-    </section>
+<p>Attivi: <span id="contatore">0</span></p>
 
-    <section class="statistiche">
-      <!-- Conteggi e/o barre orizzontali -->
-    </section>
-
-    <section class="lista">
-      <!-- Container che render() ricostruisce a ogni cambio di stato -->
-    </section>
-
-    <div id="notifica"></div>
-
-  </main>
-
-  <footer>
-    <!-- Autore, anno -->
-  </footer>
-
-  <script src="script.js"></script>
-</body>
+		<script src="script.js"></script>
+	</body>
 </html>
+

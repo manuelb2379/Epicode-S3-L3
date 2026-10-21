@@ -1,139 +1,149 @@
+const lista = document.querySelector("#lista-task");
+const contatore = document.querySelector("#contatore");
+const nuovo = document.querySelector("#nuovo-task");
+const bottoneAggiungi = document.querySelector("#bottone-aggiungi");
+const filtri = document.querySelectorAll(".filtri button");
+
+const task = [
+   {
+      nome: "Pagare le bollette",
+      id: 1,
+      completato: true,
+   },
+   {
+      nome: "Studiare JavaScript",
+      id: 2,
+      completato: false,
+   },
+   {
+      nome: "Comprare il pane",
+      id: 3,
+      completato: true,
+   },
+   {
+      nome: "Chiamare il dentista",
+      id: 4,
+      completato: false,
+   },
+]
+
+/*CORREZIONE DI DARIO
+
+FACENDO COSI MI ELIMINO L'IF PERCHÈ RIPORTO TUTTO DIRETTAMENTE
+*/
+let filtro = 'tutti'
+let prossimoId = 5
+
+function aggiungiTask() {
+   lista.innerHTML = '';
+
+   const visibili = task.filter((t) => {
+      if (filtro === 'attivi') return !t.completato;
+      if (filtro === 'completati') return t.completato;
+      return true
+   });
+
+   visibili.forEach((singolo) => {
+   const li = document.createElement('li');
+   if (singolo.completato) li.classList.add('completato');
+
+   const checkbox = document.createElement('input');
+   checkbox.type = 'checkbox';
+   checkbox.checked = singolo.completato;
+   checkbox.addEventListener('change', () => {
+      singolo.completato = checkbox.checked;
+      aggiungiTask();
+   });
+
+   const testo = document.createElement('span');
+   testo.classList.add('testo');
+   testo.textContent = singolo.nome;
+
+   const bottone = document.createElement('button');
+   bottone.setAttribute('type', 'button');
+   bottone.classList.add('elimina');
+   bottone.textContent = 'Elimina';
+   bottone.addEventListener('click', () => {
+      task = task.filter((t) => t.id !== singolo.id);
+      aggiungiTask();
+   });
+
+   li.appendChild(checkbox);
+   li.appendChild(testo);
+   li.appendChild(bottone);
+   lista.appendChild(li);
+});
+
+   contatore.textContent = task.filter((t) => !t.completato).length;
+
+   filtri.forEach((bottone) => {
+      bottone.classList.toggle("attivo", bottone.textContent.toLowerCase() === filtro);
+   });
+}
+
+bottoneAggiungi.addEventListener("click", () => {
+   const valore = nuovo.value.trim();
+   if (valore === "") return;
+
+   task.push({ nome: valore, id: prossimoId, completato: false });
+   prossimoId++;
+   nuovo.value = "";
+   aggiungiTask();
+});
+
+filtri.forEach((bottone) => {
+   bottone.addEventListener("click", () => {
+      filtro = bottone.textContent.toLowerCase();
+      aggiungiTask();
+   });
+});
+
+aggiungiTask();
+
+
+
+
 /*
-REGOLE
-- Le risposte vanno scritte in JavaScript sotto questi commenti.
-- Pattern fondamentale: stato -> render() -> eventi.
-  Tutto cio' che vedi a schermo dipende dallo stato.
-  Gli eventi modificano lo stato e poi chiamano render().
-- Apri index.html nel browser. Apri la console (DevTools) per gli errori.
-- Cerca su MDN solo i concetti dichiarati come "cerca tu":
-  localStorage, Blob/URL.createObjectURL, FileReader.
-  Tutto il resto e' stato visto in settimana.
-- Niente AI per generare codice. Niente template scaricati.
+function aggiungiTask() {
+
+   myTask.forEach((task) => {
+      const newLi = document.createElement('li');
+      newLi.classList.add(`priorita-${task.priorita}`);
+
+
+
+      const text = document.createElement('span');
+      text.textContent = task.nome;
+      newLi.appendChild(text);
+
+      const badge = document.createElement('span');
+      badge.classList.add('badge');
+      badge.textContent = task.priorita.toUpperCase();
+      newLi.appendChild(badge);
+
+      const taskDate = document.createElement('span');
+      taskDate.classList.add('data', 'divData');
+      taskDate.textContent = task.data.toLocaleString("it-IT") + " ";
+
+      const elimina = document.createElement('button');
+      elimina.textContent = 'Elimina';
+
+      taskDate.appendChild(elimina);
+      newLi.appendChild(taskDate);
+
+      lista.appendChild(newLi);
+   }); // Il forEach ora racchiude tutto la creazione dell'elemento
+}
+
+function aggiornaContatore() {
+   if (contatore) {
+      contatore.textContent = myTask.length;
+   }
+}
+
+// Chiamata iniziale per mostrare i task all'avvio della pagina
+aggiungiTask();
+aggiornaContatore()
+
 */
 
-
-/* STATO
-   In cima al file definisci poche variabili globali:
-   - un array di oggetti come dato principale (es. libri, ricette, film, ...)
-   - una variabile per il filtro corrente
-   - una variabile per l'ordinamento corrente
-   - una variabile per la stringa di ricerca corrente
-*/
-
-/* SCRIVI QUI LA TUA RISPOSTA */
-
-
-/* RENDER()
-   Una sola funzione che ridipinge la lista. A ogni chiamata:
-   1) parte dall'array completo,
-   2) filtra,
-   3) ordina,
-   4) svuota il container DOM,
-   5) ricrea gli elementi DOM per gli oggetti risultanti.
-   Aggiorna anche conteggi e statistiche.
-   Salva lo stato in localStorage in fondo a render() (cerca tu come funziona).
-*/
-
-/* SCRIVI QUI LA TUA RISPOSTA */
-
-
-/* FORM CON VALIDAZIONE
-   addEventListener("submit") sul form.
-   event.preventDefault().
-   Leggi i valori con .value.trim().
-   Se uno dei campi obbligatori e' vuoto, mostra errore e return.
-   Altrimenti push allo stato, form.reset(), render().
-   Id univoco con Date.now().
-*/
-
-/* SCRIVI QUI LA TUA RISPOSTA */
-
-
-/* INTERAZIONI BASE — eliminare, modificare, contare
-   - Elimina: filter per id, render(). Event delegation sul container.
-   - Modifica in-place: button "Modifica". Al click il testo diventa <input>,
-     si conferma con Invio o blur.
-   - Conteggi dinamici dentro render().
-*/
-
-/* SCRIVI QUI LA TUA RISPOSTA */
-
-
-/* RICERCA, FILTRO, ORDINAMENTO
-   - Ricerca live: <input> con event "input". Salva in stato e render().
-   - Filtro: <select> con event "change". Salva in stato e render().
-   - Ordinamento: due button (o select). Salva in stato e render().
-   I tre si compongono dentro render() in fila.
-*/
-
-/* SCRIVI QUI LA TUA RISPOSTA */
-
-
-/* NOTIFICHE TEMPORANEE
-   Funzione notifica(testo) che imposta il testo del <div id="notifica">,
-   lo mostra (display: block), poi dopo 3000ms (setTimeout) lo nasconde.
-*/
-
-/* SCRIVI QUI LA TUA RISPOSTA */
-
-
-/* TEMA CHIARO/SCURO
-   Un button che chiama document.body.classList.toggle("dark").
-   In CSS scrivi le regole opposte (es. body.dark { background: #111; ... }).
-*/
-
-/* SCRIVI QUI LA TUA RISPOSTA */
-
-
-/* PERSISTENZA — localStorage (cerca tu su MDN)
-   - In fondo a render(), salva lo stato:
-       localStorage.setItem("dati", JSON.stringify(stato));
-   - All'avvio, prima della prima render(), carica:
-       const salvato = localStorage.getItem("dati");
-       if (salvato) stato = JSON.parse(salvato);
-*/
-
-/* SCRIVI QUI LA TUA RISPOSTA */
-
-
-/* RIORDINO ↑ ↓
-   Due button su ogni elemento. Click su ↑ scambia con il precedente nell'array,
-   ↓ con il successivo. Event delegation. Poi render().
-*/
-
-/* SCRIVI QUI LA TUA RISPOSTA */
-
-
-/* ESPORTAZIONE / IMPORTAZIONE JSON (cerca tu su MDN)
-   - Esporta: crea un Blob con JSON.stringify(stato), genera un URL con
-     URL.createObjectURL e simula il click su un <a download>.
-   - Importa: <input type="file"> + FileReader per leggere il contenuto come
-     testo, JSON.parse, sostituisci lo stato, render().
-*/
-
-/* SCRIVI QUI LA TUA RISPOSTA */
-
-
-/* STATISTICHE GRAFICHE
-   Almeno due indicatori: contatori grandi e/o barre orizzontali
-   (<div> con width: X% in base al dato). Aggiorna dentro render().
-*/
-
-/* SCRIVI QUI LA TUA RISPOSTA */
-
-
-/* MULTI-VISTA — lista / card / tabella
-   Una variabile globale "vista" che render() legge per decidere quale HTML
-   produrre. Tre button cambiano "vista" e chiamano render().
-*/
-
-/* SCRIVI QUI LA TUA RISPOSTA */
-
-
-/* CATEGORIE
-   Aggiungi un campo categoria nello schema. Nel form un <select> per sceglierla.
-   In render(), raggruppa con reduce in { categoria: [elementi] } e disegna un
-   header per categoria con sotto la lista di quella categoria.
-*/
-
-/* SCRIVI QUI LA TUA RISPOSTA */
